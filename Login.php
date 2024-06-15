@@ -4,61 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
-    <link rel="stylesheet" href="css/Cadastro.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
-        rel="stylesheet">
+    <title>Login</title>
 </head>
 
 <body>
-    <img class="fundo" src="imagens/fundo.jpg" alt="">
     <section>
-        <img src="imagens/LOGOTIPO.png" alt="">
+        <h1>LOGIN</h1>
         <?php
+        session_start();
+        require_once "Banco.php";
 
-        $usuario = $_POST['usuario'] ?? null;
-        $senha = $_POST['senha'] ?? null;
-        $confirmar_senha = $_POST['confirmar_senha'] ?? null;
+        
+        if (isset($_SESSION['username'])) {
+            header("Location: Home.php");
+            exit;
+        }
 
-        require_once "CadastroForm.php";
+        
+        require_once "LoginForm.php";
 
-        if (is_null($usuario) && is_null($senha) && is_null($confirmar_senha)) {
-            echo "<div class=\"erroCadastro\">Criar usuário...</div>";
-        } elseif ($senha === $confirmar_senha) {
-            require_once "Banco.php";
+        
+        if (isset($_POST['username']) && isset($_POST['senha'])) {
+            $username = $_POST['username'];
+            $password = $_POST['senha'];
 
-            $busca = $banco->query("SELECT * FROM usuarios WHERE usuario = '$usuario'");
+            
+            $stmt = $banco->prepare("SELECT username, senha FROM usuarios WHERE username=?");
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
 
-            if ($busca->num_rows > 0) { // Se há busca com o usuário inserido, quer dizer que já está cadastrado
-                echo "<div class=\"erroCadastro\">Usuário já cadastrado...</div>";
-            } else cadastrarUsuario($usuario, $senha); // Cadastra o usuário no BD
-        } else echo "<div class=\"erroCadastro\">As senhas não coincidem...</div>";
+            if ($resultado->num_rows > 0) {
+                $obj_usuario = $resultado->fetch_object();
 
+               
+                if (password_verify($password, $obj_usuario->senha)) {
+                    $_SESSION['username'] = $obj_usuario->username;
+
+                    header("Location: Home.php");
+                    exit;
+                } else {
+                    echo "<div class='erroLogin'>Senha incorreta.</div>";
+                }
+            } else {
+                echo "<div class='erroLogin'>Usuário não encontrado.</div>";
+            }
+            $stmt->close();
+        }
         ?>
     </section>
 </body>
 
 </html>
-
-<?php
-function cadastrarUsuario($usuario, $senha) {
-    require_once "Banco.php";
-
-    $senha_hash = password_hash($senha, PASSWORD_BCRYPT); // Hash da senha para segurança
-
-    $stmt = $banco->prepare("INSERT INTO usuarios (usuario, senha) VALUES (?, ?)");
-    $stmt->bind_param("ss", $usuario, $senha_hash);
-
-    if ($stmt->execute()) {
-        echo "<div class=\"sucessoCadastro\">Usuário cadastrado com sucesso!</div>";
-    } else {
-        echo "<div class=\"erroCadastro\">Erro ao cadastrar usuário...</div>";
-    }
-
-    $stmt->close();
-    $banco->close();
-}
-?>
