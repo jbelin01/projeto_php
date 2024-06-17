@@ -9,4 +9,6 @@
     <input type="password" id="confirmar_senha" name="confirmar_senha" required>
     <br>
     <input type="submit" value="Cadastrar">
+    <br> 
+    <a href="Login.php">Já possui uma conta? Faça login</a>
 </form>

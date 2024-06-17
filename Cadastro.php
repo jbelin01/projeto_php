@@ -33,6 +33,7 @@
         } else echo "<div class=\"erroCadastro\">As senhas não coincidem...</div>";
 
         ?>
+        
     </section>
 </body>
 
