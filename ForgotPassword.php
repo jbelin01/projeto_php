@@ -4,26 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
-    <link rel="stylesheet" href="css/Cadastro.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
-        rel="stylesheet">
+    <title>Esqueci minha senha</title>
+    
 </head>
 
 <body>
-    <img class="fundo" src="imagens/fundo.jpg" alt="">
+    
     <section>
-        <img src="imagens/LOGOTIPO.png" alt="">
+        
         <?php
 
-        $cpf = $_POST['cpf'] ?? null;
+        $cpf = $_POST['username'] ?? null;
         $senha = $_POST['senha'] ?? null;
-        $confirmar_senha = $_POST['confirmar_senha'] ?? null;
+        $confirmar_senha = $_POST['confirmara'] ?? null;
 
-        require_once "EsqueciSenhaForm.php";
+        require_once "FormForgot.php";
 
         if (is_null($cpf) && is_null($senha) && is_null($confirmar_senha)) {
             echo "<div class=\"erroAlterar\">Criar usuario...</div>";
