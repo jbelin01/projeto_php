@@ -18,12 +18,12 @@
         $senha = $_POST['senha'] ?? null;
         $confirmar = $_POST['confirmar'] ?? null;
 
-        require_once "CadastroForm.php";
+        require_once "FormCadastro.php";
 
         if (is_null($usuario) && is_null($senha) && is_null($confirmar)) {
             echo "<div class=\"erroCadastro\">Criar usuário...</div>";
         } elseif ($senha === $confirmar_senha) {
-            require_once "Banco.php";
+            require_once "includes/banco.php";
 
             $busca = $banco->query("SELECT * FROM usuarios WHERE usuario = '$usuario'");
 
@@ -40,7 +40,7 @@
 </html>
 <?php
 function cadastrarUsuario($usuario, $senha) {
-    require_once "Banco.php";
+    require_once "includes/banco.php";
 
     $senha_hash = password_hash($senha, PASSWORD_BCRYPT); // Hash da senha para segurança
 

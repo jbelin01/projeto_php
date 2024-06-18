@@ -12,7 +12,7 @@
         <h1>LOGIN</h1>
         <?php
         session_start();
-        require_once "Banco.php";
+        require_once "includes\banco.php";
 
         
         if (isset($_SESSION['username'])) {
@@ -21,7 +21,7 @@
         }
 
         
-        require_once "LoginForm.php";
+        require_once "FormLogin.php";
 
         
         if (isset($_POST['username']) && isset($_POST['senha'])) {
