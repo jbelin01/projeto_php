@@ -2,7 +2,7 @@
   <!-- <h1 class="">Bem Vindo!</h1> -->
   <img src="./icons/filme.svg" alt="icone">
   <div class="content">
-    <input type="text" placeholder="nome do usuário" id="username" name="username" required>
+    <input type="text" placeholder="nome do usuário" id="username" name="usuario" required>
     <input type="password" placeholder="sua senha" id="senha" name="senha" required>
     <div class="enviar">
       <input type="submit" value="Entrar"></input>

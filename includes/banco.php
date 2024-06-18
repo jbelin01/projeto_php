@@ -62,6 +62,6 @@ if ($banco->query($sql) === TRUE) {
 }
 
 // Fechar conexão
-$banco->close();
+//$b/anco->close();
 
 ?>

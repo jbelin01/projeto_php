@@ -10,50 +10,42 @@
 
 <body>
   <section class="container">
-    <!-- <img src="/images/catalogofilmes.jpg" alt="images"> -->
-
     <?php
-        session_start();
-        require_once "includes\banco.php";
+      session_start();
 
-        
-        if (isset($_SESSION['username'])) {
-            header("Location: Home.php");
-            exit;
+      require_once "banco.php";
+
+      //require_once "Header.php";
+
+      if (isset($_SESSION['usuario'])) {
+          header("Location: Home.php");
+          exit;
+      }
+
+      require_once "FormLogin.php";
+      if (isset($_POST['usuario']) && isset($_POST['senha'])) {
+          $usuario = $_POST['usuario'];
+          $senha = $_POST['senha'];
+
+          $stmt = $banco->prepare("SELECT usuario, email, senha FROM usuarios WHERE nome=?");
+          $stmt->bind_param("s", $usuario);
+          $stmt->execute();
+          $resultado = $stmt->get_result();
+
+          if ($resultado->num_rows > 0) {
+              $obj_usuario = $resultado->fetch_object();
+
+              if (password_verify($senha, $obj_usuario->senha)) {
+                  $_SESSION['usuario'] = $obj_usuario->usuario;
+                  $_SESSION['email'] = $obj_usuario->email;
+
+                  header("Location: Home.php");
+                  exit;
+              } else echo "Senha incorreta.";
+          } else echo "Usuário não encontrado.";
+          $stmt->close();
         }
-
-        
-        require_once "FormLogin.php";
-
-        
-        if (isset($_POST['username']) && isset($_POST['senha'])) {
-            $usuario = $_POST['username'];
-            $senha = $_POST['senha'];
-
-            
-            $stmt = $banco->prepare("SELECT usuario, senha FROM usuarios WHERE usuario=?");
-            $stmt->bind_param("s", $username);
-            $stmt->execute();
-            $resultado = $stmt->get_result();
-
-            if ($resultado->num_rows > 0) {
-                $obj_usuario = $resultado->fetch_object();
-
-               
-                if (password_verify($senha, $obj_usuario->senha)) {
-                    $_SESSION['username'] = $obj_usuario->usuario;
-
-                    header("Location: Home.php");
-                    exit;
-                } else {
-                    echo "<div class='erroLogin'>Senha incorreta.</div>";
-                }
-            } else {
-                echo "<div class='erroLogin'>Usuário não encontrado.</div>";
-            }
-            $stmt->close();
-        }
-        ?>
+    ?>
   </section>
 </body>
 

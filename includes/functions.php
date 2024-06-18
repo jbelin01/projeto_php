@@ -3,27 +3,32 @@
 
     function registerUser($usuario,$email,$senha){
         global $banco;
-        $passwordHash = password_hash($senha,PASSWORD_BCRYPT);
-        $sql = "INSERT INTO usuarios (usuario,email, senha) VALUES (?, ?, ?)";
+        $passwordHash = password_hash($senha, PASSWORD_BCRYPT);
+        $sql = "INSERT INTO usuarios (usuario, email, senha) VALUES (?,?,?)";
 
         $stmt = $banco->prepare($sql);
-        $stmt->bind_param("sss",$usuario,$email,$passwordHash);
-        return $stmt->execute(); 
+        $stmt->bind_param("sss",$usuario, $email,$passwordHash);
+        return $stmt->execute();
     }
 
-    function loginUser($usuario,$senha){
+    function loginUser($usuario, $senha) {
         global $banco;
-        $sql = "SELECT * FROM users WHERE usuario = ?";
+        $sql = "SELECT id, usuario, email, senha FROM usuarios WHERE usuario = ?";
         $stmt = $banco->prepare($sql);
-        $stmt -> bind_param("s",$usuario);
+        $stmt->bind_param("s", $usuario);
         $stmt->execute();
-        $result = $stmt->get_result();
-        if($result->num_rows > 0){
-            $user = $result->fetch_assoc();
-            if(password_verify($senha,$user["password"])){
-                return $user;
+        $stmt->bind_result($id, $usuario_db, $email, $hashed_password);
+        
+        while ($stmt->fetch()) {
+            if (password_verify($senha, $hashed_password)) {
+                return [
+                    'id' => $id,
+                    'usuario' => $usuario_db,
+                    'email' => $email
+                ];
             }
         }
+        
         return false;
     }
 
