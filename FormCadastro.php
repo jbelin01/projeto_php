@@ -2,34 +2,33 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/register.css">
+  <title>Cadastro</title>
 </head>
 
 <body>
-    
-    <section>
-        
-        <h2>Cadastro de Usuário</h2>
-        
-        <form method="POST" action="cadastro.php">
-            <label for="usuario">Usuário:</label>
-            <input type="text" id="usuario" name="usuario" required>
-            <br>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <br>
-            <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" required>
-            <br>
-            <br>
-            <input type="submit" value="Cadastrar">
-            <br> 
-            <a href="Login.php">Já possui uma conta? Faça login</a>
-        </form>
-        
-    </section>
+
+  <section class="container">
+    <form method="POST" action="cadastro.php">
+      <h2>Cadastro de Usuário</h2>
+      <!-- <label for="usuario">Usuário:</label> -->
+      <div class="content">
+        <input type="text" placeholder="Nome do usário" id="usuario" name="usuario" required>
+        <input type="email" placeholder="E-mail" id="email" name="email" required>
+        <input type="password" placeholder="Senha" id="senha" name="senha" required>
+        <div class="enviar">
+          <input type="submit" value="Cadastrar">
+          <p>
+            Já possui uma conta?
+            <a href="Login.php"> Faça login</a>
+          </p>
+        </div>
+      </div>
+    </form>
+
+  </section>
 
 </body>
 

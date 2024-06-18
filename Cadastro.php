@@ -2,6 +2,8 @@
 session_start();
 require_once "includes/functions.php";
 
+require_once "FormCadastro.php";
+
 $usuario = $_POST['usuario'] ?? null;
 $email = $_POST['email'] ?? null;
 $senha = $_POST['senha'] ?? null;

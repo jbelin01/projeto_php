@@ -7,10 +7,13 @@
   background-image: url("../images/catalogofilmes.jpg");
   background-position: center bottom;
 
-  
-  form {    
+  h2 {
+    color: #fafafa;
+  }
+
+  form {
     width: 100%;
-    background-color:  #191920;
+    background-color: #191920;
     border: 3px solid #1D5AF3;
     width: 30%;
     padding: 2rem;
@@ -19,16 +22,16 @@
     flex-direction: column;
     align-items: center;
 
-    .content{
+    .content {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 1rem;
-      
+
       padding: 0.5rem 0;
-      
-  
-      input{
+
+
+      input {
         padding: 1rem;
         border-radius: 0.875rem;
         border: none;
@@ -39,35 +42,36 @@
         font-weight: 500;
         font-size: 18px;
       }
-  }
-
-  .enviar{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    input[type="submit"] {
-      background: #327AD0;
-      border: none;
-      padding: 0.675rem;
-      border-radius: 12px;
-      width: 100%;
     }
-    p{
-      color: #fafafa;
-      font-size: 16px;
 
-      a{
-        color: #327AD0;
-        font-weight: 600;
-        text-decoration: none;
+    .enviar {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      input[type="submit"] {
+        background: #327AD0;
+        border: none;
+        padding: 0.675rem;
+        border-radius: 12px;
+        width: 100%;
+      }
+
+      p {
+        color: #fafafa;
+        font-size: 16px;
+
+        a {
+          color: #327AD0;
+          font-weight: 600;
+          text-decoration: none;
+        }
       }
     }
-  }
-  
 
-  
+
+
 
   }
 }
