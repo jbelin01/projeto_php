@@ -16,22 +16,22 @@
 
         $cpf = $_POST['username'] ?? null;
         $senha = $_POST['senha'] ?? null;
-        $confirmar_senha = $_POST['confirmara'] ?? null;
+        $confirmar = $_POST['confirmar'] ?? null;
 
         require_once "FormForgot.php";
 
-        if (is_null($cpf) && is_null($senha) && is_null($confirmar_senha)) {
+        if (is_null($username) && is_null($password) && is_null($confirmar)) {
             echo "<div class=\"erroAlterar\">Criar usuario...</div>";
-        } elseif ($senha === $confirmar_senha) {
+        } elseif ($password === $confirmar) {
             require_once "Banco.php";
 
-            $busca = $banco->query("SELECT * FROM usuarios WHERE cpf = '$cpf'");
+            $busca = $banco->query("SELECT * FROM usuarios WHERE username = '$username'");
 
             if ($busca->num_rows > 0) {
                 $obj_usuario = $busca->fetch_object();
 
-                if ($cpf === $obj_usuario->cpf) {
-                    alterarSenhaUsuario($cpf, $senha);
+                if ($username === $obj_usuario->username) {
+                    alterarsenhaUsuario($username, $password);
                     header("Location: Login.php");
                 }
             } else {
