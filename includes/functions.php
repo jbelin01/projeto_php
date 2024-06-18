@@ -1,26 +1,26 @@
 <?php 
     include 'banco.php';
 
-    function registerUser($username,$password){
+    function registerUser($usuario,$email,$senha){
         global $banco;
-        $passwordHash = password_hash($password,PASSWORD_BCRYPT);
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        $passwordHash = password_hash($senha,PASSWORD_BCRYPT);
+        $sql = "INSERT INTO usuarios (usuario,email, senha) VALUES (?, ?, ?)";
 
         $stmt = $banco->prepare($sql);
-        $stmt->bind_param("ss",$username,$passwordHash);
+        $stmt->bind_param("sss",$usuario,$email,$passwordHash);
         return $stmt->execute(); 
     }
 
-    function loginUser($username,$password){
+    function loginUser($usuario,$senha){
         global $banco;
-        $sql = "SELECT * FROM users WHERE username = ?";
+        $sql = "SELECT * FROM users WHERE usuario = ?";
         $stmt = $banco->prepare($sql);
-        $stmt -> bind_param("s",$username);
+        $stmt -> bind_param("s",$usuario);
         $stmt->execute();
         $result = $stmt->get_result();
         if($result->num_rows > 0){
             $user = $result->fetch_assoc();
-            if(password_verify($password,$user["password"])){
+            if(password_verify($senha,$user["password"])){
                 return $user;
             }
         }
@@ -29,66 +29,66 @@
 
     function getAllMovies() {
         global $banco;
-        $sql = "SELECT * FROM movies";
+        $sql = "SELECT * FROM filmes";
         $result = $banco->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
     
-    function addMovie($title, $description) {
+    function addMovie($titulo, $descricao) {
         global $banco;
-        $sql = "INSERT INTO movies (title, description) VALUES (?, ?)";
+        $sql = "INSERT INTO filmes (titulo, descricao) VALUES (?, ?)";
         $stmt = $banco->prepare($sql);
-        $stmt->bind_param("ss", $title, $description);
+        $stmt->bind_param("ss", $titulo, $descricao);
         return $stmt->execute();
     }
     
     function deleteMovie($id) {
         global $banco;
-        $sql = "DELETE FROM movies WHERE id = ?";
+        $sql = "DELETE FROM filmes WHERE id = ?";
         $stmt = $banco->prepare($sql);
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
     
-    function updateMovie($id, $title, $description) {
+    function updateMovie($id, $titulo, $descricao) {
         global $banco;
-        $sql = "UPDATE movies SET title = ?, description = ? WHERE id = ?";
+        $sql = "UPDATE filmes SET titulo = ?, descricao = ? WHERE id = ?";
         $stmt = $banco->prepare($sql);
-        $stmt->bind_param("ssi", $title, $description, $id);
+        $stmt->bind_param("ssi", $titulo, $descricao, $id);
         return $stmt->execute();
     }
     
-    function getComments($movie_id) {
+    function getComments($filme_id) {
         global $banco;
-        $sql = "SELECT * FROM comments WHERE movie_id = ?";
+        $sql = "SELECT * FROM comentarios WHERE filme_id = ?";
         $stmt = $banco->prepare($sql);
-        $stmt->bind_param("i", $movie_id);
+        $stmt->bind_param("i", $filme_id);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
     
-    function addComment($movie_id, $user_id, $comment) {
+    function addComment($filme_id, $usuario_id, $comentario) {
         global $banco;
-        $sql = "INSERT INTO comments (movie_id, user_id, comment) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO comentarios (filme_id, usuario_id, comentario) VALUES (?, ?, ?)";
         $stmt = $banco->prepare($sql);
-        $stmt->bind_param("iis", $movie_id, $user_id, $comment);
+        $stmt->bind_param("iis", $filme_id, $usuario_id, $comentario);
         return $stmt->execute();
     }
     
     function deleteComment($id) {
         global $banco;
-        $sql = "DELETE FROM comments WHERE id = ?";
+        $sql = "DELETE FROM comentarios WHERE id = ?";
         $stmt = $banco->prepare($sql);
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
     
-    function updateComment($id, $comment) {
+    function updateComment($id, $comentario) {
         global $banco;
-        $sql = "UPDATE comments SET comment = ? WHERE id = ?";
+        $sql = "UPDATE comentarios SET comentario = ? WHERE id = ?";
         $stmt = $banco->prepare($sql);
-        $stmt->bind_param("si", $comment, $id);
+        $stmt->bind_param("si", $comentario, $id);
         return $stmt->execute();
     }
 

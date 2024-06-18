@@ -13,8 +13,8 @@ $action = $_GET['action'] ?? '';
 $username = $_SESSION['username'];
 
 if ($action == 'add') {
-    $movie_id = $_POST['movie_id'];
-    $comment = $_POST['comment'];
+    $movie_id = $_POST['filme_id'];
+    $comment = $_POST['comentario'];
     if (addComment($movie_id, $username, $comment)) { 
         echo "Comentário adicionado!";
     } else {

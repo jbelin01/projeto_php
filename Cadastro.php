@@ -1,59 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
-    
-</head>
-
-<body>
-    
-    <section>
-        
-        <?php
-
-        $usuario = $_POST['usuario'] ?? null;
-        $senha = $_POST['senha'] ?? null;
-        $confirmar = $_POST['confirmar'] ?? null;
-
-        require_once "FormCadastro.php";
-
-        if (is_null($usuario) && is_null($senha) && is_null($confirmar)) {
-            echo "<div class=\"erroCadastro\">Criar usuário...</div>";
-        } elseif ($senha === $confirmar_senha) {
-            require_once "includes/banco.php";
-
-            $busca = $banco->query("SELECT * FROM usuarios WHERE usuario = '$usuario'");
-
-            if ($busca->num_rows > 0) { // Se há busca com o usuário inserido, quer dizer que já está cadastrado
-                echo "<div class=\"erroCadastro\">Usuário já cadastrado...</div>";
-            } else cadastrarUsuario($usuario, $senha); // Cadastra o usuário no BD
-        } else echo "<div class=\"erroCadastro\">As senhas não coincidem...</div>";
-
-        ?>
-        
-    </section>
-</body>
-
-</html>
 <?php
-function cadastrarUsuario($usuario, $senha) {
+session_start();
+require_once "includes/functions.php";
+
+$usuario = $_POST['usuario'] ?? null;
+$email = $_POST['email'] ?? null;
+$senha = $_POST['senha'] ?? null;
+
+if (empty($usuario) || empty($email) || empty($senha)) {
+    echo "<div class=\"erroCadastro\">Preencha todos os campos.</div>";
+} else {
+    require_once "includes/banco.php";
+
+    $busca = $banco->prepare("SELECT * FROM usuarios WHERE usuario = ? OR email = ?");
+    $busca->bind_param("ss", $usuario, $email);
+    $busca->execute();
+    $result = $busca->get_result();
+
+    if ($result->num_rows > 0) {
+        echo "<div class=\"erroCadastro\">Usuário ou email já cadastrado.</div>";
+    } else {
+        cadastrarUsuario($usuario, $email, $senha);
+    }
+
+    $busca->close();
+    $banco->close();
+}
+
+function cadastrarUsuario($usuario, $email, $senha) {
     require_once "includes/banco.php";
 
     $senha_hash = password_hash($senha, PASSWORD_BCRYPT); // Hash da senha para segurança
 
-    $stmt = $banco->prepare("INSERT INTO usuarios (usuario, senha) VALUES (?, ?)");
-    $stmt->bind_param("ss", $usuario, $senha_hash);
+    $stmt = $banco->prepare("INSERT INTO usuarios (usuario, email, senha) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $usuario, $email, $senha_hash);
 
     if ($stmt->execute()) {
         echo "<div class=\"sucessoCadastro\">Usuário cadastrado com sucesso!</div>";
     } else {
-        echo "<div class=\"erroCadastro\">Erro ao cadastrar usuário...</div>";
+        echo "<div class=\"erroCadastro\">Erro ao cadastrar usuário.</div>";
     }
 
     $stmt->close();
-    $banco->close();
 }
 ?>

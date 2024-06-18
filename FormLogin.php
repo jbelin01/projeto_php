@@ -1,16 +1,17 @@
 <form action="" method="post">
+  <h1 class="">Bem Vindo!</h1>
+  <div class="content">
+
     <div>
-        <label for="username">Usuário:</label>
-        <input type="text" id="username" name="username" required>
+      <input type="text" placeholder="nome do usuário" id="username" name="username" required>
     </div>
     <div>
-        <label for="senha">senha:</label>
-        <input type="password" id="senha" name="senha" required>
+
+      <input type="password" placeholder="sua senha" id="senha" name="senha" required>
     </div>
     <div class="enviar">
-        <p><a href="Cadastro.php">Criar conta</a></p>
-        <label for="image"></label>
-        <input type="submit" value="Enviar"></input>
+      <input type="submit" value="Entrar"></input>
+      <p>Ainda não tem uma conta? <a href="Cadastro.php">Criar conta</a></p>
     </div>
-
-    <p><a href="">Esqueci a senha</a></p>
+  </div>
+</form>
