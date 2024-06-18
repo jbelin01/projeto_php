@@ -11,39 +11,22 @@
 <body>
   <section class="container">
     <?php
-      session_start();
+        require_once 'includes/functions.php';
+        require_once 'FormLogin.php';
+        session_start();
 
-      require_once "banco.php";
-
-      //require_once "Header.php";
-
-      if (isset($_SESSION['usuario'])) {
-          header("Location: Home.php");
-          exit;
-      }
-
-      require_once "FormLogin.php";
-      if (isset($_POST['usuario']) && isset($_POST['senha'])) {
-          $usuario = $_POST['usuario'];
-          $senha = $_POST['senha'];
-
-          $stmt = $banco->prepare("SELECT usuario, email, senha FROM usuarios WHERE nome=?");
-          $stmt->bind_param("s", $usuario);
-          $stmt->execute();
-          $resultado = $stmt->get_result();
-
-          if ($resultado->num_rows > 0) {
-              $obj_usuario = $resultado->fetch_object();
-
-              if (password_verify($senha, $obj_usuario->senha)) {
-                  $_SESSION['usuario'] = $obj_usuario->usuario;
-                  $_SESSION['email'] = $obj_usuario->email;
-
-                  header("Location: Home.php");
-                  exit;
-              } else echo "Senha incorreta.";
-          } else echo "Usuário não encontrado.";
-          $stmt->close();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $usuario = $_POST['usuario']; // Corrigido para 'usuario' para consistência
+            $senha = $_POST['senha'];
+            $user = loginUser($usuario, $senha);
+            if ($user) {
+                $_SESSION['usuario_id'] = $user['id'];
+                $_SESSION['usuario'] = $user['usuario']; // Adicionado para consistência com home.php
+                header('Location: Home.php');
+                exit;
+            } else {
+                echo "Usuário ou senha inválidos.";
+            }
         }
     ?>
   </section>
