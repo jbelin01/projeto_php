@@ -12,7 +12,7 @@
 <body>
 <?php
 session_start();
-require_once "<includes>functions.php";
+require_once "includes/functions.php";  
 
 if (!isset($_SESSION['username'])) {
     header("Location: Login.php");
