@@ -21,7 +21,7 @@ $sql = "CREATE TABLE IF NOT EXISTS usuarios (
     senha VARCHAR(255) NOT NULL,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
 
-if ($conn->query($sql) === TRUE) {
+if ($banco->query($sql) === TRUE) {
     echo "Tabela de usuários criada com sucesso<br>";
 }
 
@@ -32,7 +32,7 @@ $sql = "CREATE TABLE IF NOT EXISTS comentarios (
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 )";
-if ($conn->query($sql) === TRUE) {
+if ($banco->query($sql) === TRUE) {
     echo "Tabela de comentários criada com sucesso<br>";
 }
 
