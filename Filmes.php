@@ -52,9 +52,9 @@ if(isset($_FILES["imagem"])){
     <input type="text" name="titulo" required><br>
     <label for="diretor">Diretor:</label>
     <input type="text" name="diretor" required><br>
-    <label for="ano">Diretor:</label>
+    <label for="ano">Ano de lançamento:</label>
     <input type="number" name="ano" required><br>
-    <label for="descricao">Ano de lançamento:</label>
+    <label for="descricao">Sinopse:</label>
     <textarea name="descricao" required></textarea><br>
     <input type="submit" value="Adicionar Filme">
   </form>
@@ -66,7 +66,7 @@ if(isset($_FILES["imagem"])){
     foreach($filmes as $filme) ?>
   <tr>
     <td>
-      <img src="images/uploads/<?php echo $filme['imagem']; ?>" alt="qualquercoisa">
+      <img src="images/uploads/<?php echo $filme['imagem']; ?>">
     </td>
   </tr>
 
