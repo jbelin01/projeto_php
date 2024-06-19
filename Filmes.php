@@ -10,8 +10,12 @@
 <body>
 
   <?php
-session_start();
-require_once "includes/functions.php";
+  require_once 'Auth.php';
+  $auth = checkLogin();  
+  if($auth = false){
+    header("Location: Login.php");
+  }
+  require_once "includes/functions.php";
 
 if (!isset($_SESSION['usuario'])) { // Corrigido para 'usuario' para consistência
     header("Location: Login.php");

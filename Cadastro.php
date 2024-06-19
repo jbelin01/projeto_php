@@ -1,4 +1,6 @@
 <?php
+require_once 'Auth.php';
+checkLogin();
 session_start();
 require_once "includes/functions.php";
 

@@ -101,7 +101,7 @@
         global $banco;
         $sql = "INSERT INTO filmes (imagem, titulo, diretor, ano, descricao) VALUES (?,?,?,?,?)";
         $stmt = $banco->prepare($sql);
-        $stmt->bind_param("ss", $imagePath, $titulo, $diretor, $ano, $descricao);
+        $stmt->bind_param("sssss", $imagePath, $titulo, $diretor, $ano, $descricao);
         return $stmt->execute();
     }
 

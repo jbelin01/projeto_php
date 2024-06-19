@@ -22,7 +22,7 @@
             if ($user) {
                 $_SESSION['usuario_id'] = $user['id'];
                 $_SESSION['usuario'] = $user['usuario']; // Adicionado para consistência com home.php
-                header('Location: Home.php');
+                header('Location: Filmes.php');
                 exit;
 
             } else {
