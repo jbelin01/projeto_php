@@ -64,6 +64,9 @@ if(isset($_FILES["imagem"])){
     $filmes = getAllMovies();
 
     foreach($filmes as $filme) ?>
+    <form action="logout.php" method="post">
+      <input type="submit" value="Logout">    
+  </form>
   <tr>
     <td>
       <img src="images/uploads/<?php echo $filme['imagem']; ?>">
