@@ -1,0 +1,27 @@
+.bodyContainer{
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  background-image: url("../images/backgroundfilmes.jpg");
+    background-position: center bottom;
+}
+
+.mainContainer {
+  width: 40%;
+  background: #d4d4d4;
+  padding: 1rem;
+
+  header{
+    display: flex;
+    justify-content: space-between;
+    div {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+  }
+}
+
+.listaFilmes {
+  
+}
