@@ -4,11 +4,11 @@ require_once "includes/functions.php";
 
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $usuario = $_POST['usuario'];
-    $email = $_POST['email'];
+    $titulo = $_POST['usuario'];
+    $descricao = $_POST['email'];
     $senha = $_POST['senha'];
-    if(registerUser($usuario,$email,$senha)){
-        header('Location. Login.php?success=1');
+    if(registerUser($titulo,$descricao,$senha)){
+        header('Location: Login.php');
         exit();
     }else{
         echo "erro ao registrar usuario";

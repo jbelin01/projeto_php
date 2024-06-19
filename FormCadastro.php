@@ -11,7 +11,7 @@
 <body>
 
   <section class="container">
-    <form method="POST" action="cadastro.php">
+    <form method="POST">
       <h2>Cadastro de Usuário</h2>
       <!-- <label for="usuario">Usuário:</label> -->
       <div class="content">

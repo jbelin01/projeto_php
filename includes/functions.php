@@ -38,15 +38,7 @@
         $result = $banco->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-    
-    function addMovie($titulo, $descricao) {
-        global $banco;
-        $sql = "INSERT INTO filmes (titulo, descricao) VALUES (?, ?)";
-        $stmt = $banco->prepare($sql);
-        $stmt->bind_param("ss", $titulo, $descricao);
-        return $stmt->execute();
-    }
-    
+        
     function deleteMovie($id) {
         global $banco;
         $sql = "DELETE FROM filmes WHERE id = ?";
@@ -95,6 +87,65 @@
         $stmt = $banco->prepare($sql);
         $stmt->bind_param("si", $comentario, $id);
         return $stmt->execute();
+    }
+    
+    // function addMovie($titulo, $descricao) {
+    //     global $banco;
+    //     $sql = "INSERT INTO filmes (titulo, descricao) VALUES (?, ?)";
+    //     $stmt = $banco->prepare($sql);
+    //     $stmt->bind_param("ss", $titulo, $descricao);
+    //     return $stmt->execute();
+    // }
+
+    function addMovie($imagePath, $titulo, $diretor, $ano, $descricao) {
+        global $banco;
+        $sql = "INSERT INTO filmes (imagem, titulo, diretor, ano, descricao) VALUES (?,?,?,?,?)";
+        $stmt = $banco->prepare($sql);
+        $stmt->bind_param("ss", $imagePath, $titulo, $diretor, $ano, $descricao);
+        return $stmt->execute();
+    }
+
+    function uploadMovie($caminho) {
+        if(!empty($_FILES['imagem']['name'])) {
+            $nomeImagem = $_FILES['imagem']['name'];
+            // $tipo = $_FILES['imagem']['type'];
+            $nomeTemporario = $_FILES['imagem']['tmp_name'];
+            $tamanho = $_FILES['imagem']['size'];
+            $erros = array();
+        }
+
+        $tamanhoMaximo = 1024 * 1024 * 5; //5MB
+        if ($tamanho > $tamanhoMaximo) {
+        $erros[] = "Seu arquivo excede o tamanho máximo<br>";
+        }
+
+        $arquivosPermitidos = ["png", "jpg", "jpeg"]; 
+        $extensao = pathinfo($nomeImagem, PATHINFO_EXTENSION); 
+        if (!in_array($extensao, $arquivosPermitidos)) {
+            $erros[] = "Arquivo não permitido.<br>"; 
+        }
+
+        // $typesPermitidos = ["png", "jpg", "jpeg"];
+        // if (!in_array($tipo, $typesPermitidos) ) { 
+        //     $erros[] = "Tipo de arquivo não permitido.<br>";
+        // }
+
+        if (!empty($erros)) {
+                foreach ($erros as $erro) {
+                    echo $erro;
+                }
+            } else {
+            // $caminho = "uploads/";
+            $hoje = date("d-m-Y_h-i");
+            // $user = $_POST['nome'];
+            $novoNome = $hoje."-".$nomeImagem;
+            // $novoNome = $user."-".$nomeImagem;
+            if(move_uploaded_file($nomeTemporario, $caminho.$novoNome)) {
+                return $novoNome;
+            } else {
+                echo "nao deu para adicionar";
+            }
+        }
     }
 
 ?>

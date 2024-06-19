@@ -37,7 +37,10 @@ if ($banco->query($sql) === TRUE) {
 // Criar a tabela de filmes
 $sql = "CREATE TABLE IF NOT EXISTS filmes (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    titulo VARCHAR(255) NOT NULL,
+    imagem VARCHAR(100) NOT NULL,
+    titulo TEXT NOT NULL,
+    diretor TEXT NOT NULL,
+    ano INT,
     descricao TEXT NOT NULL
 )";
 if ($banco->query($sql) === TRUE) {

@@ -16,16 +16,17 @@
         session_start();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $usuario = $_POST['usuario']; // Corrigido para 'usuario' para consistência
+            $titulo = $_POST['usuario']; // Corrigido para 'usuario' para consistência
             $senha = $_POST['senha'];
-            $user = loginUser($usuario, $senha);
+            $user = loginUser($titulo, $senha);
             if ($user) {
                 $_SESSION['usuario_id'] = $user['id'];
                 $_SESSION['usuario'] = $user['usuario']; // Adicionado para consistência com home.php
                 header('Location: Home.php');
                 exit;
+
             } else {
-                echo "Usuário ou senha inválidos.";
+                echo "<p style='color:yellow;'>Usuário ou senha inválidos.</p>";
             }
         }
     ?>
